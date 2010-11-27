@@ -1,7 +1,7 @@
-Text\Restructured
-=================
+Text\RestructuredText
+=====================
 
-Text\Restructued はpure PHPで書かれたreStructuredTextのパーサです。
+Text\Restructured はpure PHPで書かれたreStructuredTextのパーサです。
 
 :author: chobi_e <http://twitter.com/chobi_e>
 :created_at: 2010/11/27
