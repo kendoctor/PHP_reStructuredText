@@ -1,0 +1,96 @@
+<html><head><style type='text/css'>
+  bloquote{margin-left:4em;background:#CCF;padding:0.5em;}
+  pre{margin-left:4em;background:#CFCFCF;padding:0.5em;}
+</style></head><body>
+<h1>Text\Restructured
+</h1>
+<table border="1">
+<tr>
+<th>author</th>
+<td>chobi_e <http://twitter.com/chobi_e></td>
+</tr>
+<tr>
+<th>created_at</th>
+<td>2010/11/27</td>
+</tr>
+<tr>
+<th>current status</th>
+<td>alpha development</td>
+</tr>
+<tr>
+<th>licence</th>
+<td>MIT Licence</td>
+</tr>
+</table>
+<p>Text\RestructuedはreStructuredText形式のテキストを
+解析する為のパーサーキットです。
+Renderは現状用意されておりませんので、自前で実装する必要があります。
+</p>
+<h1>How to use this library?
+</h1>
+<p>使い方についてはtestディレクトリの中をみつつチャレンジしてみてください。
+</p>
+<h1>Purpose
+</h1>
+<p>現状Machine側の実装はかなり適当でparseできないものが多くあるかと思います。
+parseできないものがあればchobi_eまで教えてもらえれば対応できる限り
+対応しようかな、と思います。
+</p>
+<p>今のところ主にSymfony2のドキュメントをparseするのが一番の目的で。作っていく過程で
+parserの精度が実用的であれば標準化するつもりです。今後は主にgithubで開発をしていくので、参加したい方はガンガンpullリクエストを
+送ってください。
+</p>
+<h1>対応状況
+</h1>
+<p>今のところの対応状況はこんな感じ::
+<pre>[*]章立ての構造
+  =======  タイトル
+  =======    サブタイトル
+  -----------  [*]段落
+  テキスト
+[*]記号付きリスト
+  something
+    lorem ipsum dolar sit amet
+  anything
+[]番号付きリスト
+  1. something
+      lorem ipsum dolar sit amet
+[]autoincrementリスト
+  #. moemoe
+  []定義リスト
+  左揃えテキスト
+    インデントテキスト（空行なし）
+[-]整形済みブロック
+  ::
+      インデントおわりまで
+ 
+  something::
+      インデント終わりまで（上記の場合はコロンがひとつになる）
+ 
+  > text
+[*]ラインブロック
+  装飾の不要なリスト
+[*]引用
+  インデントするだけ
+[*]Doctestブロック
+  something
+[*]区切り線
+  ------------とか
+[*]フィールドリスト
+  題名    インデントテキスト
+    (インデント終わりまで続く)
+[] 拡張系の実装
+  [*]コメント
+--未対応
+[]表（面倒くさいのでやらない。気が向いたら）
+  ・グリッドテーブル
+  ・シンプルテーブル
+  []オプションリスト
+  -a            command-line option "a"
+  -b file       options can have arguments
+                and long descriptions
+  --long        options can be long also
+  --input=file  long options can also have arguments
+  /V            DOS/VMS-style options too
+</pre></p>
+</body></html>

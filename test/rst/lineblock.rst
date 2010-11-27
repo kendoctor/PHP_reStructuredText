@@ -1,0 +1,2 @@
+| lineblock
+| lineblock de gowasu
