@@ -27,6 +27,11 @@ class Restructured
     $this->machine = $machine;
   }
   
+  public function registerStream($reader)
+  {
+    $this->stream = $reader;
+  }
+  
   public function registerState(Array $array)
   {
     foreach($array as $state)
@@ -50,6 +55,8 @@ class Restructured
     $stack = array();
     $result = array();
     $machine = $this->machine;
+
+    $machine->root_parser = $this;
     $machine->register_handler($closure);
     
     $ar  = new TokenStream();

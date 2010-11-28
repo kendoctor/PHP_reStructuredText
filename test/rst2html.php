@@ -17,6 +17,7 @@ echo "<style type='text/css'>
   dd{padding:0.5em}
   h1{text-align:center;font-size:45pt}
   h2,h3,h4,h5,h6{font-size:20pt}
+  table{margin-left:4em;}
   p{margin-left:2em;}
 </style>";
 echo "</head><body>" . PHP_EOL;

@@ -123,7 +123,8 @@ class Table extends Base
               $nu = 0;
               foreach($c as $cc){
                 if(trim($cc)){
-                  $rows[$row_cnt-1][$nu] .= $cc;
+                  
+                  $rows[$row_cnt-1][$nu] .= PHP_EOL . $cc;
                 }
                 $nu++;
               }
@@ -191,12 +192,19 @@ class Table extends Base
           
         case self::RENDERING:
           //貯めたテーブルを通知しまくる
+
+          //Todo: 暫定的にこれで
+          $root = $this->get_root_machine();
+          $rest = $root->root_parser;
           foreach($rows as $c){
               $this->notify(Event::ROW_START);
 
               foreach($c as $column){
                 $this->notify(Event::ENTRY_START);
-                $this->notify(Event::TEXT, $column);
+                $rst = clone $rest;
+                $rst->registerStream(new \Text\Restructured\Loader\StringLoader(trim($column)));
+                $rst->parse($this->handler);
+                unset($rst);
                 $this->notify(Event::ENTRY_END);
               }
 

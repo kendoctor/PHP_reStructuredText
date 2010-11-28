@@ -42,13 +42,18 @@ simple parser::
 
   $r = new Text\Restructured\Restructured($s, new Text\Restructured\StateMachine());
   $r->registerState(array(
-    new Text\Restructured\State\Line(),
-    new Text\Restructured\State\Horizon(),
-    new Text\Restructured\State\Indent(),
-    new Text\Restructured\State\Doctest(),
-    new Text\Restructured\State\Comment(),
-    new Text\Restructured\State\BulletList(),
-    new Text\Restructured\State\Text()
+    new Text\Restructured\Parser\Line(),
+    new Text\Restructured\Parser\Horizon(),
+    new Text\Restructured\Parser\SimpleTable(),
+    new Text\Restructured\Parser\Indent(),
+    new Text\Restructured\Parser\LineBlock(),
+    new Text\Restructured\Parser\Doctest(),
+    new Text\Restructured\Parser\Comment(),
+    new Text\Restructured\Parser\FieldList(),
+    new Text\Restructured\Parser\BulletList(),
+    new Text\Restructured\Parser\OptionList(),
+    new Text\Restructured\Parser\Code(),
+    new Text\Restructured\Parser\Text()
   ));
 
   use Text\Restructured\Event;
@@ -62,7 +67,27 @@ simple parser::
 Supported restructured text format
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-今のところの対応状況はこんな感じ::
+Quick Check
+
+====================  ====================
+format                Support/Unsupport
+--------------------  --------------------
+Section               OK
+Paragraph             OK
+BulletList            OK
+DefinitionList        OK
+PreformatBlock        OK
+LineBlock             OK
+Bloquote              nest unsupported 
+Doctest               OK
+Transition            OK
+FieldList             OK
+Commenta              OK
+Table                 一部対応
+====================  ====================
+
+
+詳細についてはこんな感じ::
 
 
   [*]章立ての構造
@@ -136,13 +161,10 @@ Supported restructured text format
       但し空コメントの後のブロックはコメントとして許容されます
     []image
 
-  Unsupported
-  ===========
-
-  []Table（気が向いたら）
-    ・Grid Table
-    ・Simple Table
-
+  [-]Table
+    []Grid Table
+    [*]Simple Table
+    一部対応。セルの中のテキストは再帰的にrstパーサで処理されます
 
 To do
 ----------------------
@@ -171,3 +193,7 @@ To do
 - 仕様の作成
 
   仕様ないと他の人が拡張しづらいので
+
+- その他周りのクラスの修正
+
+  いきあたりばったりで適当につくってる所をきちんとしたい
