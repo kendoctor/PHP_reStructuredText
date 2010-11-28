@@ -8,7 +8,7 @@ require_once $vendor_dir . "/Text/Restructured/TokenStream.php";
 require_once $vendor_dir . "/Text/Restructured/StateMachine.php";
 require_once $vendor_dir . "/Text/Restructured/Event.php";
 
-require_once $vendor_dir . "/Text/Restructured/Machine/Bloquote.php";
+require_once $vendor_dir . "/Text/Restructured/Machine/BlockQuote.php";
 require_once $vendor_dir . "/Text/Restructured/Machine/BulletList.php";
 require_once $vendor_dir . "/Text/Restructured/Machine/Code.php";
 require_once $vendor_dir . "/Text/Restructured/Machine/Comment.php";

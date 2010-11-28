@@ -61,12 +61,12 @@ $r->parse(function($event){
       echo "</h{$subject[$event->data]}>" . PHP_EOL;
       break;
 
-    case Event::BLOQUOTE_START:
-      echo "<bloquote>" . PHP_EOL;
+    case Event::BLOCKQUOTE_START:
+      echo "<blockquote>" . PHP_EOL;
       break;
 
-    case Event::BLOQUOTE_END:
-      echo "</bloquote>" . PHP_EOL;
+    case Event::BLOCKQUOTE_END:
+      echo "</blockquote>" . PHP_EOL;
       break;
 
     case Event::UNORDERED_LIST_START:

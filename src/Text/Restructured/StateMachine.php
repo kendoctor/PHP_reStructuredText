@@ -114,7 +114,7 @@ class StateMachine extends Machine\Base
             $lv = strlen($current->data);
             $input->back();
 
-            $machine = new \Text\Restructured\Machine\Bloquote($input,$lv);
+            $machine = new \Text\Restructured\Machine\BlockQuote($input,$lv);
             $machine->register_handler($this->get_handler());
             $machine->register_root_machine($this);
             $machine->execute($input,$lv);

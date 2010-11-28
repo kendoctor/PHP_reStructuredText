@@ -19,8 +19,8 @@ class Event{
   const SUBJECT_END = 2;
   const TEXT = 3;
 
-  const BLOQUOTE_START = 4;
-  const BLOQUOTE_END = 5;
+  const BLOCKQUOTE_START = 4;
+  const BLOCKQUOTE_END = 5;
 
   const PARAGRAPH_START = 6;
   const PARAGRAPH_END = 7;

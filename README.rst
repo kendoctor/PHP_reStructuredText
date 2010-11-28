@@ -78,7 +78,7 @@ BulletList            OK
 DefinitionList        OK
 PreformatBlock        OK
 LineBlock             OK
-Bloquote              nest unsupported 
+Bloquote              OK
 Doctest               OK
 Transition            OK
 FieldList             OK
