@@ -1,6 +1,13 @@
 Glossary
 ========================================
 
+
+Subject -> Sectionに変更
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+:title: hnタグの事。一番最初にでてきたものはタイトルとして扱われる。
+:section: ids,namesパラメーターを取る。h2以降。titleを子供に持つ
+          なぜかsectionはsectionの子供を持つ(´・ω・｀)
+
 DocumentTree関連
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 :document: sourceをパラメーターに取る。ドキュメントツリー
@@ -47,7 +54,46 @@ Line関連
 :line_block: ラインの開始/終了
 :line:       ラインブロック中の行
 
+Table関連
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+:table:   tableの開始/終了
+:tgroup:  cols パラメーターをとる。全体の列数
+:colspec: colwidthで列の幅を覚え特
+:thead:   そのなの通り
+:tbody:   そのなの通り
+:row:     行の開始/終了
+:entry:   オプションでmorecolsをとる。morecols=1 = colspan=2
+          morerowsも同様
+
+こんな感じ::
+
+  table
+    tgroup cos=3
+      colspec colwidth=n
+      colspec colwidth=n
+      colspec colwidth=n
+      thead
+        row
+          entry (morecols)
+          entry
+          entry
+            paragraph
+      tbody
+        ...
+
+
+GridTableもSimpleTableも構造は一緒
+
+
+Horizon -> Transition に変更
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+:transition: 何も情報もってないのね(´・ω・｀)
+
+transitionは連続して続けられない。ドキュメントの最初、最後にtransitionを置くことはできない
+
+
 その他
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 :literal_block: xml:space="preserve"でコメントブロック
 :doctest_block: xml:space="preserve"でdoctestブロック
+:bloquote: paragraphを子供に持つ
