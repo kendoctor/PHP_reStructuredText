@@ -18,6 +18,7 @@ require_once $vendor_dir . "/Text/Restructured/Machine/LineBlock.php";
 require_once $vendor_dir . "/Text/Restructured/Machine/FieldList.php";
 require_once $vendor_dir . "/Text/Restructured/Machine/OptionList.php";
 require_once $vendor_dir . "/Text/Restructured/Machine/DefinitionList.php";
+require_once $vendor_dir . "/Text/Restructured/Machine/Table.php";
 
 require_once $vendor_dir . "/Text/Restructured/Parser/IState.php";
 require_once $vendor_dir . "/Text/Restructured/Parser/State.php";
@@ -31,11 +32,13 @@ require_once $vendor_dir . "/Text/Restructured/Parser/Doctest.php";
 require_once $vendor_dir . "/Text/Restructured/Parser/LineBlock.php";
 require_once $vendor_dir . "/Text/Restructured/Parser/FieldList.php";
 require_once $vendor_dir . "/Text/Restructured/Parser/OptionList.php";
+require_once $vendor_dir . "/Text/Restructured/Parser/SimpleTable.php";
 require_once $vendor_dir . "/Text/Restructured/Parser/Code.php";
 
 
 $states = array(
   new Text\Restructured\Parser\Line(),
+  new Text\Restructured\Parser\SimpleTable(),
   new Text\Restructured\Parser\Horizon(),
   new Text\Restructured\Parser\Indent(),
   new Text\Restructured\Parser\LineBlock(),

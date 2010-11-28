@@ -82,6 +82,15 @@ class Event{
   const ORDERED_LIST_START = 50;
   const ORDERED_LIST_END = 51;
 
+  //table 関連
+  const ROW_START = 52;
+  const ROW_END = 53;
+  const ENTRY_START = 54;
+  const ENTRY_END = 55;
+
+  const TABLE_START = 56;
+  const TABLE_END = 57;
+
   public $type = 0;
   public $data = "";
   public $prefix = "";

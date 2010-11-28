@@ -17,7 +17,7 @@ namespace Text\Restructured;
 class StateMachine extends Machine\Base
 {
   const INIT = 0;
-
+  
   public function execute(TokenStream &$input,$level = 0)
   {
     $previous = $input->getLastToken();
@@ -33,7 +33,12 @@ class StateMachine extends Machine\Base
             $input->back();
             $machine->execute($input);
             unset($machine);
-            continue;
+          }else if($current->alias == "table"){
+            $machine = new \Text\Restructured\Machine\Table();
+            $machine->register_handler($this->get_handler());
+            $input->back();
+            $machine->execute($input);
+            unset($machine);
           }else if($current->alias == "comment"){
             $machine = new \Text\Restructured\Machine\Comment();
             $machine->register_handler($this->get_handler());

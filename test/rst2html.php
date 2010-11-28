@@ -241,6 +241,26 @@ $r->parse(function($event){
       echo "</dd>" . PHP_EOL;
       break;
 
+    case Event::ROW_START:
+      echo "<tr>";
+      break;
+    case Event::ROW_END:
+      echo "</tr>" . PHP_EOL;
+      break;
+      
+    case Event::ENTRY_START:
+      echo "<td>";
+      break;
+    case Event::ENTRY_END:
+      echo "</td>";
+      break;
+      
+    case Event::TABLE_START:
+      echo "<table border=\"1\">" . PHP_EOL;
+      break;
+    case Event::TABLE_END:
+      echo "</table>" . PHP_EOL;
+      break;
 
     default:
       throw new Exception("unsupported event.type `{$event->type}` found.ちゃんとハンドルすれ");

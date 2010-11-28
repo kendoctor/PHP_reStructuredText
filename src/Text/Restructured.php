@@ -61,7 +61,7 @@ class Restructured
     }
 
     if($token === false){
-      $ar->append((object)array("alias"=>"eos","data"=>""));
+      $ar->append((object)array("alias"=>"eos","data"=>"","line"=>""));
     }
     
     $machine->execute($ar);
