@@ -85,7 +85,7 @@ Table関連
 GridTableもSimpleTableも構造は一緒
 
 
-Horizon -> Transition に変更
+Transition に変更
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 :transition: 何も情報もってないのね(´・ω・｀)
 

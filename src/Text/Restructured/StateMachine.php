@@ -49,8 +49,8 @@ class StateMachine extends Machine\Base
             $input->back();
             $machine->execute($input);
             unset($machine);
-          }else if($current->alias == "horizon"){
-            $machine = new \Text\Restructured\Machine\Horizon();
+          }else if($current->alias == "transition"){
+            $machine = new \Text\Restructured\Machine\Transition();
             $machine->register_handler($this->get_handler());
             $machine->register_root_machine($this);
             $input->back();
@@ -91,7 +91,7 @@ class StateMachine extends Machine\Base
             $input->back();
             $machine->execute($input);
             unset($machine);
-          }else if($current->alias == "text" && $next->alias == "horizon"){
+          }else if($current->alias == "text" && $next->alias == "transition"){
             $this->notify(Event::SUBJECT_START,$next->data);
             $this->notify(Event::TEXT,$current->data);
             $this->notify(Event::SUBJECT_END,$next->data);

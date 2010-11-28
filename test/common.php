@@ -12,7 +12,7 @@ require_once $vendor_dir . "/Text/Restructured/Machine/BlockQuote.php";
 require_once $vendor_dir . "/Text/Restructured/Machine/BulletList.php";
 require_once $vendor_dir . "/Text/Restructured/Machine/Code.php";
 require_once $vendor_dir . "/Text/Restructured/Machine/Comment.php";
-require_once $vendor_dir . "/Text/Restructured/Machine/Horizon.php";
+require_once $vendor_dir . "/Text/Restructured/Machine/Transition.php";
 require_once $vendor_dir . "/Text/Restructured/Machine/Paragraph.php";
 require_once $vendor_dir . "/Text/Restructured/Machine/Doctest.php";
 require_once $vendor_dir . "/Text/Restructured/Machine/LineBlock.php";
@@ -24,7 +24,7 @@ require_once $vendor_dir . "/Text/Restructured/Machine/Table.php";
 require_once $vendor_dir . "/Text/Restructured/Parser/IState.php";
 require_once $vendor_dir . "/Text/Restructured/Parser/State.php";
 require_once $vendor_dir . "/Text/Restructured/Parser/Comment.php";
-require_once $vendor_dir . "/Text/Restructured/Parser/Horizon.php";
+require_once $vendor_dir . "/Text/Restructured/Parser/Transition.php";
 require_once $vendor_dir . "/Text/Restructured/Parser/Indent.php";
 require_once $vendor_dir . "/Text/Restructured/Parser/Line.php";
 require_once $vendor_dir . "/Text/Restructured/Parser/BulletList.php";
@@ -39,7 +39,7 @@ require_once $vendor_dir . "/Text/Restructured/Parser/Code.php";
 
 $states = array(
   new Text\Restructured\Parser\Line(),
-  new Text\Restructured\Parser\Horizon(),
+  new Text\Restructured\Parser\Transition(),
   new Text\Restructured\Parser\SimpleTable(),
   new Text\Restructured\Parser\Indent(),
   new Text\Restructured\Parser\LineBlock(),

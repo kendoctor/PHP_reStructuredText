@@ -40,7 +40,7 @@ class Event{
   const COMMENT_END = 15;
   const COMMENT_DATA = 16;
 
-  const HORIZON = 17;
+  const TRANSITION = 17;
 
   const DOCTEST_START = 18;
   const DOCTEST_DATA = 19;

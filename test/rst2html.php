@@ -31,7 +31,7 @@ $comment = 0;
  * イベント毎の処理を記述することでrenderingすることができます。
  * 何が何回コールされたとか、そういった情報はもっていないので
  * イベントハンドラ側で状態を記憶してあげる必要があります
- * (例えばhorizonの種類とか、subjectの種類とか)
+ * (例えばtransitionの種類とか、subjectの種類とか)
  */
 $r->parse(function($event){
   global $subject;
@@ -85,7 +85,7 @@ $r->parse(function($event){
       echo "</li>" . PHP_EOL;
       break;
 
-    case Event::HORIZON:
+    case Event::TRANSITION:
       echo "<hr />";
       break;
 
