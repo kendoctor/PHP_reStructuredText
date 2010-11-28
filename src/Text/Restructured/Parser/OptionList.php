@@ -1,5 +1,5 @@
 <?php
-namespace Text\Restructured\State;
+namespace Text\Restructured\Parser;
 
 /*
  * This file is part of the chobi_e's reStructuredText package.
@@ -15,7 +15,7 @@ namespace Text\Restructured\State;
  *
  * @author chobi_e <http://twitter.com/chobi_e>
  */
-class OptionList extends State
+class OptionList extends Parser
 {
   public $alias   = "option_list";
 

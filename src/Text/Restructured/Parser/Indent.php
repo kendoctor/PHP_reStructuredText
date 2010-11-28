@@ -1,5 +1,6 @@
 <?php
-namespace Text\Restructured\State;
+namespace Text\Restructured\Parser;
+
 /*
  * This file is part of the chobi_e's reStructuredText package.
  *
@@ -10,20 +11,21 @@ namespace Text\Restructured\State;
  */
 
 /**
- * Code State.
+ * Indent State.
  *
  * @author chobi_e <http://twitter.com/chobi_e>
  */
-class Code extends State
+class Indent extends Parser
 {
-  public $alias   = "code";
-  protected $regexp  = "^(?<prefix>::|>\s)(?<data>.+)?$";
-
+  public $alias = "indent";
+  protected $regexp = "^(?<indent>[ \t]+)";
+  
   protected function process($token, Array $match)
   {
     $state = clone $this;
-    $state->data = $match["data"];
-    $state->prefix = trim($match["prefix"]);
+    if(isset($match["indent"])){
+      $state->data = $match["indent"];
+    }
 
     return $state;
   }

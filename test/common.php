@@ -19,31 +19,31 @@ require_once $vendor_dir . "/Text/Restructured/Machine/FieldList.php";
 require_once $vendor_dir . "/Text/Restructured/Machine/OptionList.php";
 require_once $vendor_dir . "/Text/Restructured/Machine/DefinitionList.php";
 
-require_once $vendor_dir . "/Text/Restructured/State/IState.php";
-require_once $vendor_dir . "/Text/Restructured/State/State.php";
-require_once $vendor_dir . "/Text/Restructured/State/Comment.php";
-require_once $vendor_dir . "/Text/Restructured/State/Horizon.php";
-require_once $vendor_dir . "/Text/Restructured/State/Indent.php";
-require_once $vendor_dir . "/Text/Restructured/State/Line.php";
-require_once $vendor_dir . "/Text/Restructured/State/BulletList.php";
-require_once $vendor_dir . "/Text/Restructured/State/Text.php";
-require_once $vendor_dir . "/Text/Restructured/State/Doctest.php";
-require_once $vendor_dir . "/Text/Restructured/State/LineBlock.php";
-require_once $vendor_dir . "/Text/Restructured/State/FieldList.php";
-require_once $vendor_dir . "/Text/Restructured/State/OptionList.php";
-require_once $vendor_dir . "/Text/Restructured/State/Code.php";
+require_once $vendor_dir . "/Text/Restructured/Parser/IState.php";
+require_once $vendor_dir . "/Text/Restructured/Parser/State.php";
+require_once $vendor_dir . "/Text/Restructured/Parser/Comment.php";
+require_once $vendor_dir . "/Text/Restructured/Parser/Horizon.php";
+require_once $vendor_dir . "/Text/Restructured/Parser/Indent.php";
+require_once $vendor_dir . "/Text/Restructured/Parser/Line.php";
+require_once $vendor_dir . "/Text/Restructured/Parser/BulletList.php";
+require_once $vendor_dir . "/Text/Restructured/Parser/Text.php";
+require_once $vendor_dir . "/Text/Restructured/Parser/Doctest.php";
+require_once $vendor_dir . "/Text/Restructured/Parser/LineBlock.php";
+require_once $vendor_dir . "/Text/Restructured/Parser/FieldList.php";
+require_once $vendor_dir . "/Text/Restructured/Parser/OptionList.php";
+require_once $vendor_dir . "/Text/Restructured/Parser/Code.php";
 
 
 $states = array(
-  new Text\Restructured\State\Line(),
-  new Text\Restructured\State\Horizon(),
-  new Text\Restructured\State\Indent(),
-  new Text\Restructured\State\LineBlock(),
-  new Text\Restructured\State\Doctest(),
-  new Text\Restructured\State\Comment(),
-  new Text\Restructured\State\FieldList(),
-  new Text\Restructured\State\BulletList(),
-  new Text\Restructured\State\OptionList(),
-  new Text\Restructured\State\Code(),
-  new Text\Restructured\State\Text()
+  new Text\Restructured\Parser\Line(),
+  new Text\Restructured\Parser\Horizon(),
+  new Text\Restructured\Parser\Indent(),
+  new Text\Restructured\Parser\LineBlock(),
+  new Text\Restructured\Parser\Doctest(),
+  new Text\Restructured\Parser\Comment(),
+  new Text\Restructured\Parser\FieldList(),
+  new Text\Restructured\Parser\BulletList(),
+  new Text\Restructured\Parser\OptionList(),
+  new Text\Restructured\Parser\Code(),
+  new Text\Restructured\Parser\Text()
 );

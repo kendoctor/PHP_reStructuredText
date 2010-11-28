@@ -1,5 +1,5 @@
 <?php
-namespace Text\Restructured\State;
+namespace Text\Restructured\Parser;
 
 /*
  * This file is part of the chobi_e's reStructuredText package.
@@ -11,21 +11,19 @@ namespace Text\Restructured\State;
  */
 
 /**
- * Indent State.
+ * Line State.
  *
  * @author chobi_e <http://twitter.com/chobi_e>
  */
-class Indent extends State
+class Line extends Parser
 {
-  public $alias = "indent";
-  protected $regexp = "^(?<indent>[ \t]+)";
-  
+  public $alias   = "line";
+  protected $regexp  = "^(?P<data>\r\n|\r|\n)$";
+
   protected function process($token, Array $match)
   {
     $state = clone $this;
-    if(isset($match["indent"])){
-      $state->data = $match["indent"];
-    }
+    $state->data = $match["data"];
 
     return $state;
   }

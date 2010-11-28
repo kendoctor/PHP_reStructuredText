@@ -1,5 +1,5 @@
 <?php
-namespace Text\Restructured\State;
+namespace Text\Restructured\Parser;
 /*
  * This file is part of the chobi_e's reStructuredText package.
  *
@@ -10,11 +10,11 @@ namespace Text\Restructured\State;
  */
 
 /**
- * State interface.
+ * Parser interface.
  *
  * @author chobi_e <http://twitter.com/chobi_e>
  */
-interface IState{
+interface IParser{
   public function getState();
   public function match($token);
 }

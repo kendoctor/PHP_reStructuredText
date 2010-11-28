@@ -1,5 +1,5 @@
 <?php
-namespace Text\Restructured\State;
+namespace Text\Restructured\Parser;
 
 /*
  * This file is part of the chobi_e's reStructuredText package.
@@ -11,20 +11,22 @@ namespace Text\Restructured\State;
  */
 
 /**
- * Horizion state.
+ * catchup state.
  *
  * @author chobi_e <http://twitter.com/chobi_e>
  */
-class Horizon extends State
+class Text extends Parser
 {
-  public $alias   = "horizon";
-  protected $regexp  = "^(?<data>[=:'\"~^_*+\#<>`-]{4,})(\r\n|\r|\n)$";
+  public $alias   = "text";
+  protected $regexp  = "^(?<data>.+)$";
 
   protected function process($token, Array $match)
   {
     $state = clone $this;
-    $state->data = $match["data"];
-    
+    if(isset($match["data"])){
+      $state->data = $match["data"];
+    }
+
     return $state;
   }
 }

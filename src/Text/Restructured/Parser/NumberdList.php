@@ -1,6 +1,5 @@
 <?php
-namespace Text\Restructured\State;
-
+namespace Text\Restructured\Parser;
 /*
  * This file is part of the chobi_e's reStructuredText package.
  *
@@ -11,18 +10,21 @@ namespace Text\Restructured\State;
  */
 
 /**
- * Comment state.
+ * reStructuredText Parser.
  *
  * @author chobi_e <http://twitter.com/chobi_e>
  */
-class Comment extends State
+class NumberedList extends Parser
 {
-  public $alias = "comment";
-  protected $regexp = "^(?<prefix>\.\.)(?<data>\s.+)?$";
-  
+  public $alias   = "numbered_list";
+  protected $regexp  = "^(?<prefix>[1-9][0-9]*\.\s)(?<data>.+)$";
+
+  public $allow  = array();
+
   protected function process($token, Array $match)
   {
     $state = clone $this;
+    $state->prefix = $match["prefix"];
     $state->data = $match["data"];
     return $state;
   }

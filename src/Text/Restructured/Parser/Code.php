@@ -1,6 +1,5 @@
 <?php
-namespace Text\Restructured\State;
-
+namespace Text\Restructured\Parser;
 /*
  * This file is part of the chobi_e's reStructuredText package.
  *
@@ -11,14 +10,14 @@ namespace Text\Restructured\State;
  */
 
 /**
- * LineBlock State.
+ * Code Parser.
  *
  * @author chobi_e <http://twitter.com/chobi_e>
  */
-class LineBlock extends State
+class Code extends Parser
 {
-  public $alias   = "line_block";
-  protected $regexp  = "^(?<prefix>\|\s)(?<data>.+)$";
+  public $alias   = "code";
+  protected $regexp  = "^(?<prefix>::|>\s)(?<data>.+)?$";
 
   protected function process($token, Array $match)
   {

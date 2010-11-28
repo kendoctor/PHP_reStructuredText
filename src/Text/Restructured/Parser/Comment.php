@@ -1,5 +1,5 @@
 <?php
-namespace Text\Restructured\State;
+namespace Text\Restructured\Parser;
 
 /*
  * This file is part of the chobi_e's reStructuredText package.
@@ -11,26 +11,19 @@ namespace Text\Restructured\State;
  */
 
 /**
- * FieldList State.
+ * Comment Parser.
  *
  * @author chobi_e <http://twitter.com/chobi_e>
  */
-class FieldList extends State
+class Comment extends Parser
 {
-  public $alias   = "field_list";
-  protected $regexp  = "^:(?P<data>.+?):(\s(?P<description>.+))?$";
-
+  public $alias = "comment";
+  protected $regexp = "^(?<prefix>\.\.)(?<data>\s.+)?$";
+  
   protected function process($token, Array $match)
   {
     $state = clone $this;
     $state->data = $match["data"];
-
-    if(isset($match["description"])){
-      $state->option = trim($match["description"]);
-    }else{
-      $state->option = null;
-    }
-
     return $state;
   }
 }

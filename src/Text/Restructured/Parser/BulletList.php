@@ -1,5 +1,5 @@
 <?php
-namespace Text\Restructured\State;
+namespace Text\Restructured\Parser;
 
 /*
  * This file is part of the chobi_e's reStructuredText package.
@@ -11,21 +11,21 @@ namespace Text\Restructured\State;
  */
 
 /**
- * Doctest State.
+ * BulletList State.
  *
  * @author chobi_e <http://twitter.com/chobi_e>
  */
-class Doctest extends State
+class BulletList extends Parser
 {
-  public $alias   = "doctest";
-  protected $regexp  = "^(?<prefix>>>>\s)(?<data>.+)$";
+  public $alias   = "list";
+  protected $regexp  = "^(?<prefix>[*-]\s)(?<data>.+)$";
+
+  public $allow  = array();
 
   protected function process($token, Array $match)
   {
     $state = clone $this;
     $state->data = $match["data"];
-    $state->prefix = trim($match["prefix"]);
-
     return $state;
   }
 }

@@ -1,5 +1,5 @@
 <?php
-namespace Text\Restructured\State;
+namespace Text\Restructured\Parser;
 
 /*
  * This file is part of the chobi_e's reStructuredText package.
@@ -11,21 +11,20 @@ namespace Text\Restructured\State;
  */
 
 /**
- * BulletList State.
+ * Horizion state.
  *
  * @author chobi_e <http://twitter.com/chobi_e>
  */
-class BulletList extends State
+class Horizon extends Parser
 {
-  public $alias   = "list";
-  protected $regexp  = "^(?<prefix>[*-]\s)(?<data>.+)$";
-
-  public $allow  = array();
+  public $alias   = "horizon";
+  protected $regexp  = "^(?<data>[=:'\"~^_*+\#<>`-]{4,})(\r\n|\r|\n)$";
 
   protected function process($token, Array $match)
   {
     $state = clone $this;
     $state->data = $match["data"];
+    
     return $state;
   }
 }
