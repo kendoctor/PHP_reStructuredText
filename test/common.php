@@ -3,6 +3,7 @@ $vendor_dir = __DIR__ . "/../src";
 require_once $vendor_dir . "/Text/Restructured.php";
 require_once $vendor_dir . "/Text/Restructured/Machine/Base.php";
 require_once $vendor_dir . "/Text/Restructured/Loader/FileLoader.php";
+require_once $vendor_dir . "/Text/Restructured/Loader/StringLoader.php";
 require_once $vendor_dir . "/Text/Restructured/TokenStream.php";
 require_once $vendor_dir . "/Text/Restructured/StateMachine.php";
 require_once $vendor_dir . "/Text/Restructured/Event.php";

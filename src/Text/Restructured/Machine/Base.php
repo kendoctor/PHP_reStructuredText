@@ -18,6 +18,17 @@ abstract class Base
 {
   public $state = 0;
   protected $handler;
+  protected $root_machine;
+  
+  public function get_root_machine()
+  {
+    return $this->root_machine;
+  }
+  
+  public function register_root_machine(&$machine)
+  {
+    $this->root_machine = $machine;
+  }
 
   public function get_handler()
   {

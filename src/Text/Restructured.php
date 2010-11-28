@@ -54,6 +54,7 @@ class Restructured
     
     $ar  = new TokenStream();
     
+    //Todo: LoaderがToken返すっておかしいのであとで治す
     while($token = $this->stream->getToken())
     {
       $state = $this->process($token);

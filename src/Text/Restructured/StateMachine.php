@@ -25,59 +25,69 @@ class StateMachine extends Machine\Base
     while($current = $input->getToken()){
       $next = $input->getVToken();
 
+      // Todo: そのうち登録用のInterface考える。流石にベタ書きは汎用性が。
       switch($this->state){
         case self::INIT:
           if($current->alias == "list"){
             $machine = new \Text\Restructured\Machine\BulletList();
             $machine->register_handler($this->get_handler());
+            $machine->register_root_machine($this);
             $input->back();
             $machine->execute($input);
             unset($machine);
           }else if($current->alias == "table"){
             $machine = new \Text\Restructured\Machine\Table();
             $machine->register_handler($this->get_handler());
+            $machine->register_root_machine($this);
             $input->back();
             $machine->execute($input);
             unset($machine);
           }else if($current->alias == "comment"){
             $machine = new \Text\Restructured\Machine\Comment();
             $machine->register_handler($this->get_handler());
+            $machine->register_root_machine($this);
             $input->back();
             $machine->execute($input);
             unset($machine);
           }else if($current->alias == "horizon"){
             $machine = new \Text\Restructured\Machine\Horizon();
             $machine->register_handler($this->get_handler());
+            $machine->register_root_machine($this);
             $input->back();
             $machine->execute($input);
             unset($machine);
           }else if($current->alias == "code"){
             $machine = new \Text\Restructured\Machine\Code();
             $machine->register_handler($this->get_handler());
+            $machine->register_root_machine($this);
             $input->back();
             $machine->execute($input);
             unset($machine);
           }else if($current->alias == "doctest"){
             $machine = new \Text\Restructured\Machine\Doctest();
             $machine->register_handler($this->get_handler());
+            $machine->register_root_machine($this);
             $input->back();
             $machine->execute($input);
             unset($machine);
           }else if($current->alias == "line_block"){
             $machine = new \Text\Restructured\Machine\LineBlock();
             $machine->register_handler($this->get_handler());
+            $machine->register_root_machine($this);
             $input->back();
             $machine->execute($input);
             unset($machine);
           }else if($current->alias == "field_list"){
             $machine = new \Text\Restructured\Machine\FieldList();
             $machine->register_handler($this->get_handler());
+            $machine->register_root_machine($this);
             $input->back();
             $machine->execute($input);
             unset($machine);
           }else if($current->alias == "option_list"){
             $machine = new \Text\Restructured\Machine\OptionList();
             $machine->register_handler($this->get_handler());
+            $machine->register_root_machine($this);
             $input->back();
             $machine->execute($input);
             unset($machine);
@@ -89,12 +99,14 @@ class StateMachine extends Machine\Base
           }else if($current->alias == "text" && $next->alias != "indent"){
             $machine = new \Text\Restructured\Machine\Paragraph();
             $machine->register_handler($this->get_handler());
+            $machine->register_root_machine($this);
             $input->back();
             $machine->execute($input);
             unset($machine);
           }else if($current->alias == "text" && $next->alias == "indent"){
             $machine = new \Text\Restructured\Machine\DefinitionList();
             $machine->register_handler($this->get_handler());
+            $machine->register_root_machine($this);
             $input->back();
             $machine->execute($input);
             unset($machine);
@@ -104,6 +116,7 @@ class StateMachine extends Machine\Base
 
             $machine = new \Text\Restructured\Machine\Bloquote($input,$lv);
             $machine->register_handler($this->get_handler());
+            $machine->register_root_machine($this);
             $machine->execute($input,$lv);
             unset($machine);
 
