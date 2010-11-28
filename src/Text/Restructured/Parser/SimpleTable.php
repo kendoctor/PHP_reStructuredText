@@ -18,7 +18,7 @@ namespace Text\Restructured\Parser;
 class SimpleTable extends Parser
 {
   public $alias   = "table";
-  protected $regexp  = "^(?P<data>[=-\s]+)$";
+  protected $regexp  = "^(?P<data>[=-][=-\s]*)$";
 
   protected function process($token, Array $match)
   {

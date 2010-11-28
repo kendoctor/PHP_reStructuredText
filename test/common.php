@@ -38,8 +38,8 @@ require_once $vendor_dir . "/Text/Restructured/Parser/Code.php";
 
 $states = array(
   new Text\Restructured\Parser\Line(),
-  new Text\Restructured\Parser\SimpleTable(),
   new Text\Restructured\Parser\Horizon(),
+  new Text\Restructured\Parser\SimpleTable(),
   new Text\Restructured\Parser\Indent(),
   new Text\Restructured\Parser\LineBlock(),
   new Text\Restructured\Parser\Doctest(),

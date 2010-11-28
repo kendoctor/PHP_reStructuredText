@@ -24,6 +24,7 @@ class Table extends Base
   const SOURCE = 1;
   const ROW = 2;
   const THINK = 3;
+  const RENDERING = 4;
 
   protected $cols = array();
 
@@ -36,6 +37,8 @@ class Table extends Base
   {
     $previous = $input->getLastToken();
     $col_cnt = 0;
+    $row_cnt = 0;
+    $rows = array();
 
     while($current = $input->getToken()){
       $next = $input->getVToken();
@@ -88,14 +91,53 @@ class Table extends Base
           break;
 
         case self::THINK:
-          if($current->alias == "indent"){
+
+          if($current->alias == "indent" && $next->alias != "eos"){
             //インデントかましてセルの位置が合えば継続行として扱えます。
+            $tmp = $current->data;
+            $current = $input->getToken();
+            $tmp .= $current->line;
+
+            $c = array();
+            $n = 0;
+            foreach($cols as $col){
+              if($col->type == "cell"){
+                if($n == $col_cnt){
+                  $a = $tmp;
+                }else{
+                  $a = substr($tmp,0,$col->length);
+                }
+
+                $c[] = $a;
+                $tmp = substr($tmp,$col->length);
+                $n++;
+              }else if($col->type == "space"){
+                $tmp = substr($tmp,$col->length);
+              }else{
+                throw new Exception("なんか違う");
+              }
+            }
+
+            //書き出すのは全部確定してから
+            if(count($c) && $col_cnt){
+              $nu = 0;
+              foreach($c as $cc){
+                if(trim($cc)){
+                  $rows[$row_cnt-1][$nu] .= $cc;
+                }
+                $nu++;
+              }
+            }else{
+              throw new \Exception("セルの数が違うよ2");
+            }
+
+            $this->state = self::THINK;
+
           }else if(preg_match("/^[=]+/",$current->line) && ($next->alias == "line" || $next->alias == "eos")){
             // 終了処理
-            $this->notify(Event::TABLE_END);
-            //$input->back();
-            return;
-
+            $input->back();
+            $this->state = self::RENDERING;
+            continue;
           }else if($current->alias == "line"){
             //throw new \Exception("tableの定義がおかしいよ？");
             //なんと改行も許容できます。
@@ -114,11 +156,19 @@ class Table extends Base
             $tmp = rtrim($current->data);
 
             $c = array();
+            $n = 0;
             foreach($cols as $col){
               if($col->type == "cell"){
-                $a = substr($tmp,0,$col->length);
+
+                if($n == $col_cnt){
+                  $a = $tmp;
+                }else{
+                  $a = substr($tmp,0,$col->length);
+                }
+
                 $c[] = $a;
                 $tmp =substr($tmp,$col->length);
+                $n++;
               }else if($col->type == "space"){
                 $tmp = substr($tmp,$col->length);
               }else{
@@ -126,22 +176,35 @@ class Table extends Base
               }
             }
             
-            //書き出すのは、次が確定してからだ・・・・
+
+            //書き出すのは全部確定してから
             if(count($c) && $col_cnt){
-              $this->notify(Event::ROW_START);
-              foreach($c as $column){
-                $this->notify(Event::ENTRY_START);
-                $this->notify(Event::TEXT, $column);
-                $this->notify(Event::ENTRY_END);
-              }
-              $this->notify(Event::ROW_END);
+              $rows[$row_cnt] = $c;
+              $row_cnt++;
             }else{
-              throw new Exception("セルの数が違うよ");
+              throw new \Exception("セルの数が違うよ");
             }
             
             $this->state = self::THINK;
           }
           break;
+          
+        case self::RENDERING:
+          //貯めたテーブルを通知しまくる
+          foreach($rows as $c){
+              $this->notify(Event::ROW_START);
+
+              foreach($c as $column){
+                $this->notify(Event::ENTRY_START);
+                $this->notify(Event::TEXT, $column);
+                $this->notify(Event::ENTRY_END);
+              }
+
+              $this->notify(Event::ROW_END);
+          }
+
+          $this->notify(Event::TABLE_END);
+          return;
       }
     }
     

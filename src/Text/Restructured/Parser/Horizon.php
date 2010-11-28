@@ -13,6 +13,8 @@ namespace Text\Restructured\Parser;
 /**
  * Horizion state.
  *
+ * Attention: This class will rename to Text\Restructured\Parser\Transition
+ *
  * @author chobi_e <http://twitter.com/chobi_e>
  */
 class Horizon extends Parser
