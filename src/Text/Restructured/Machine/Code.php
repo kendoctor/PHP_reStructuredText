@@ -36,6 +36,8 @@ class Code extends Base
             $this->state = self::SOURCE;
             $level = strlen($next->data);
           }else if($current->alias == "code"){
+            // inline code
+
             $this->notify(Event::CODE_START);
             $this->notify(Event::TEXT, $current->data);
             $this->state = self::LINE;
@@ -60,11 +62,8 @@ class Code extends Base
             $this->notify(Event::TEXT, $indent);
             $token = $input->getToken();
             $this->notify(Event::TEXT, $token->line);
-
-          }else if($current->alias == "line" && $next->alias == "indent"){
-            //send line;
+          }else if($current->alias == "line"){
             $this->notify(Event::TEXT, $current->line);
-
           }else{
             $this->notify(Event::CODE_END);
             $input->back();

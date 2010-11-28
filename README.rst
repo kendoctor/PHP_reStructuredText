@@ -90,7 +90,6 @@ InlineMarkup          Not supported
 
 詳細についてはこんな感じ::
 
-
   [*]章立ての構造
     =======
     タイトル

@@ -126,7 +126,7 @@ class StateMachine extends Machine\Base
             return;
           }else{
             var_dump($current);
-            throw new \Exception();
+            throw new \Exception("StateMachineの実装がどっかでおかしいよ＞＜");
           }
           break;
       }

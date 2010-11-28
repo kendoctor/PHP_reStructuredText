@@ -10,7 +10,7 @@ use Text\Restructured\Event;
 
 echo "<html><head>";
 echo "<style type='text/css'>
-  bloquote{margin-left:4em;background:#F9F966;padding:0.5em;}
+  blockquote{margin-left:4em;background:#F9F966;padding:0.5em;border:orange 1px solid;}
   pre{margin-left:4em;background:#CFCFCF;padding:0.5em;}
   dl{margin-left:4em;}
   dt{font-size:1.2em;}
