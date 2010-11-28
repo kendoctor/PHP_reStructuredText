@@ -70,7 +70,7 @@ Supported restructured text format
 Quick Check
 
 ====================  ====================
-format                Support/Unsupport
+format                Status
 --------------------  --------------------
 Section               OK
 Paragraph             OK
@@ -78,12 +78,13 @@ BulletList            OK
 DefinitionList        OK
 PreformatBlock        OK
 LineBlock             OK
-Bloquote              OK
+BlockQuote            OK
 Doctest               OK
 Transition            OK
 FieldList             OK
 Commenta              OK
 Table                 一部対応
+InlineMarkup          Not supported
 ====================  ====================
 
 
@@ -135,8 +136,8 @@ Table                 一部対応
       あ、インデントの対応やってねーや
 
   [*]引用
-    インデントするだけ
-    ネスト対応まだできてないと思う
+    インデントするだけ。ネスト可能　
+
 
   [*]Doctestブロック
     >>> something
@@ -164,7 +165,8 @@ Table                 一部対応
   [-]Table
     []Grid Table
     [*]Simple Table
-    一部対応。セルの中のテキストは再帰的にrstパーサで処理されます
+    一部対応。セルの中のテキストは再帰的にrstパーサで処理されます。
+    まだヘッダとか、セルの結合には対応していません
 
 To do
 ----------------------
