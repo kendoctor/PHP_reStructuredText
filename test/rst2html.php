@@ -132,13 +132,13 @@ $r->parse(function($event){
       break;
 
     case Event::LINEBLOCK_START:
-      echo "<pre>[lineblock]";
+      echo "<div class=\"line-block\">";
       break;
     case Event::LINEBLOCK_DATA:
-      echo htmlentities($event->data,ENT_QUOTES,"UTF-8");
+      echo $event->data;
       break;
     case Event::LINEBLOCK_END;
-      echo "</pre>" . PHP_EOL;
+      echo "</div>" . PHP_EOL;
       break;
       
     case Event::FIELD_LIST_START:

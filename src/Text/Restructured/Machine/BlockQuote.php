@@ -22,6 +22,7 @@ class BlockQuote extends Base
   const INIT = 0;
   const BLOCKQUOTE = 1;
 
+  //Todo: 継続中はrstパーサで再帰的に処理される
   public function execute(\Text\Restructured\TokenStream &$input,$level = 0)
   {
     $previous = $input->getLastToken();
@@ -64,6 +65,11 @@ class BlockQuote extends Base
             $this->notify(Event::BLOCKQUOTE_END);
             $input->back();
             return;
+          }else if($previous->alias == "line" && $current->alias == "indent" && $mylevel == $init_level){
+            $this->notify(Event::BLOCKQUOTE_END);
+            $this->state = self::INIT;
+            $input->back();
+            continue;
           }else if($previous->alias == "indent" && $current->alias == "text"){
             $this->notify(Event::TEXT, $current->data);
           }else if($current->alias == "indent"){
