@@ -21,13 +21,24 @@ class BlockQuote extends Base
 {
   const INIT = 0;
   const BLOCKQUOTE = 1;
+  const CONTINUOUS = 2;
 
-  //Todo: 継続中はrstパーサで再帰的に処理される
+  public function close_blockquote()
+  {
+    if($this->block_quote > 0){
+      $this->notify(Event::BLOCKQUOTE_END);
+      $this->block_quote--;
+    }
+  }
+
+  //Todo: なんとかParseできてるけどきちんとリファクタリングしたい
   public function execute(\Text\Restructured\TokenStream &$input,$level = 0)
   {
     $previous = $input->getLastToken();
     $init_level = $level;
     $mylevel = $init_level;
+
+    $this->block_quote = 0;
 
     while($current = $input->getToken()){
       $next = $input->getVToken();
@@ -42,6 +53,7 @@ class BlockQuote extends Base
         case self::INIT:
           if($current->alias == "indent"){
             $this->notify(Event::BLOCKQUOTE_START);
+            $this->block_quote++;
             $this->state = self::BLOCKQUOTE;
           }else{
             $input->back();
@@ -49,27 +61,48 @@ class BlockQuote extends Base
           }
           break;
 
-        case self::BLOCKQUOTE:
+        case self::CONTINUOUS:
+          if($mylevel < $init_level || $current->alias == "eos"){
+            $root = $this->get_root_machine();
+            $rest = $root->root_parser;
+            $rst = clone $rest;
+            $rst->registerStream(new \Text\Restructured\Loader\StringLoader($stack));
+            $rst->parse($this->handler);
+            $input->back();
+
+            unset($rst);
+            $this->close_blockquote();
+            $this->state = self::BLOCKQUOTE;
+          }else{
+            $stack .= $current->line;
+          }
           
-          if($current->alias == "text" && $mylevel == 0){
-            $this->notify(Event::BLOCKQUOTE_END);
+          break;
+
+        case self::BLOCKQUOTE:
+          if($current->alias == "text" && $mylevel < $init_level){
+            $this->close_blockquote();
             $input->back();
             return;
           }else if($previous->alias == "line" && $current->alias == "indent" && $mylevel > $init_level){
+            //再帰
             $machine = new self();
             $machine->register_handler($this->get_handler());
+            $machine->register_root_machine($this->get_root_machine());
             $input->back();
             $machine->execute($input,$mylevel);
             unset($machine);
           }else if($previous->alias == "line" && $current->alias == "indent" && $mylevel < $init_level){
-            $this->notify(Event::BLOCKQUOTE_END);
+            $this->close_blockquote();
             $input->back();
             return;
           }else if($previous->alias == "line" && $current->alias == "indent" && $mylevel == $init_level){
-            $this->notify(Event::BLOCKQUOTE_END);
-            $this->state = self::INIT;
-            $input->back();
-            continue;
+            // continuous
+            $stack = "";
+            $pp_level = $mylevel;
+            $this->state = self::CONTINUOUS;
+            //$current = $input->getToken();
+
           }else if($previous->alias == "indent" && $current->alias == "text"){
             $this->notify(Event::TEXT, $current->data);
           }else if($current->alias == "indent"){
@@ -79,9 +112,9 @@ class BlockQuote extends Base
           }else if($current->alias == "text"){
             $this->notify(Event::TEXT, $current->data);
           }else{
-              $this->notify(Event::BLOCKQUOTE_END);
-              $input->back();
-              return;
+            $this->close_blockquote();
+            $input->back();
+            return;
           }
           break;
       }

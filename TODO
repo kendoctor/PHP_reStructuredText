@@ -1,4 +1,5 @@
-src/Text/Restructured.php:64:    //Todo: LoaderがToken返すっておかしいのであとで治す
-src/Text/Restructured/Machine/BlockQuote.php:25:  //Todo: 継続中はrstパーサで再帰的に処理される
-src/Text/Restructured/Machine/Table.php:209:          //Todo: 暫定的にこれで
-src/Text/Restructured/StateMachine.php:28:      // Todo: そのうち登録用のInterface考える。流石にベタ書きは汎用性が。
+docs/nest.rst:Todo: ここらへんの処理は共通化出来そうなので何かしらのインターフェースを考えたいところですね。
+src/Text/Restructured.php:    //Todo: LoaderがToken返すっておかしいのであとで治す
+src/Text/Restructured/Machine/BlockQuote.php:  //Todo: なんとかParseできてるけどきちんとリファクタリングしたい
+src/Text/Restructured/Machine/Table.php:          //Todo: 暫定的にこれで
+src/Text/Restructured/StateMachine.php:      // Todo: そのうち登録用のInterface考える。流石にベタ書きは汎用性が。
