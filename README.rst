@@ -84,7 +84,7 @@ Transition            OK
 FieldList             OK
 Commenta              OK
 Table                 一部対応
-InlineMarkup          Not supported
+InlineMarkup          Not supported(将来的に対応)
 ====================  ====================
 
 

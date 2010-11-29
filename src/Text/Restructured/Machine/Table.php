@@ -48,29 +48,30 @@ class Table extends Base
           if($current->alias == "table"){
             
             $string = rtrim($current->line);
+            
             $length = strlen($string);
 
             $x = 0;
             $type = 0;
             $cols = array();
-
             for($i=0;$i<$length;$i++){
+              $char = $string[$i];
 
-              if(($string[$i] == "=" || $string[$i] == "-") && $type == 1){
+              if(($char == "=" || $char == "-") && $type == 1){
                 $x++;
                 $col_cnt++;
-              }else if($string[$i] == " " || $string[$i] == "\t" && $type == 0){
+              }else if($char == " " || $char == "\t" && $type == 0){
                 $x++;
               }
 
-              if($string[$i] == "=" || $string[$i] == "-"){
+              if($char == "=" || $char == "-"){
                 if(!isset($cols[$x])){
                   $cols[$x] = (object)array("type"=>"cell","length"=>0);
                 }
 
                 $cols[$x]->length++;
                 $type = 0;
-              }else if($string[$i] == " " || $string[$i] == "\t"){
+              }else if($char == " " || $char == "\t"){
                 if(!isset($cols[$x])){
                   $cols[$x] = (object)array("type"=>"space","length"=>0);
                 }
@@ -100,6 +101,7 @@ class Table extends Base
 
             $c = array();
             $n = 0;
+
             foreach($cols as $col){
               if($col->type == "cell"){
                 if($n == $col_cnt){
@@ -158,19 +160,30 @@ class Table extends Base
 
             $c = array();
             $n = 0;
-            foreach($cols as $col){
+            foreach($cols as $offset => $col){
               if($col->type == "cell"){
 
                 if($n == $col_cnt){
                   $a = $tmp;
                 }else{
-                  $a = substr($tmp,0,$col->length);
+                  
+                  $s_len = mb_strlen($tmp);
+                  $s_buffer = "";
+                  for($i=0,$l=0;$l < $col->length && $i<$s_len;$i++,$l++){
+                    $s_char = mb_substr($tmp,$i,1,"utf-8");
+                    $s_width = mb_strwidth($s_char,"utf-8");
+                    if($s_width == 2){
+                      $l++;
+                    }
+                    $s_buffer .= $s_char;
+                  }
+                  $a = $s_buffer;
                 }
-
                 $c[] = $a;
-                $tmp =substr($tmp,$col->length);
+                $tmp = mb_substr($tmp,$i,8192,"utf-8");
                 $n++;
               }else if($col->type == "space"){
+
                 $tmp = substr($tmp,$col->length);
               }else{
                 throw new Exception("なんか違う");
