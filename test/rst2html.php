@@ -1,3 +1,4 @@
+#!/usr/bin/php
 <?php
 require __DIR__ . "/common.php";
 
@@ -250,7 +251,11 @@ $r->parse(function($event){
       break;
       
     case Event::ENTRY_START:
-      echo "<td>";
+      echo "<td";
+      if($event->data["more_column"] > 0){
+        printf(" colspan=\"%d\"",$event->data["more_column"]+1);
+      }
+      echo ">";
       break;
     case Event::ENTRY_END:
       echo "</td>";

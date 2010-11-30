@@ -28,10 +28,88 @@ class Table extends Base
 
   protected $cols = array();
 
+
+  /**
+   * テーブルのカラム数を調べる
+   * 
+   * @return array
+   */
+  public function detect_table_columns($string,$column_t = array())
+  {
+    $length = strlen($string);
+    
+    //列数
+    $x = 0;
+
+    // cell / space
+    $type = 0;
+
+    $cols = array();
+    for($i=0;$i<$length;$i++){
+      $char = $string[$i];
+      //printf("[%s=%d]\n",$char,$type);
+
+      if(($char == "=" || $char == "-") && $type == 2){
+        $x++;
+      }else if(($char == " " || $char == "\t") && $type == 1){
+        $x++;
+      }
+
+      if($char == "=" || $char == "-"){
+        if(!isset($cols[$x])){
+          $cols[$x] = (object)array("type"=>"cell","length"=>0,"more_column" =>0);
+        }
+
+        $cols[$x]->length++;
+        $type = 1;
+      }else if($char == " " || $char == "\t"){
+        if(!isset($cols[$x])){
+          $cols[$x] = (object)array("type"=>"space","length"=>0,"more_column" =>0);
+        }
+
+        $cols[$x]->length++;
+        $type = 2;
+      }
+    }
+    
+    if((bool)$column_t && count($cols) != count($column_t)){
+      // カラムマージの判定
+      $i = 0;
+      
+      foreach($cols as &$col){
+        if($col->type == "cell" && isset($column_t[$i]) && $column_t[$i]->type == "cell" && $column_t[$i]->length < $col->length){
+          $len = 0;
+          $n = 0;
+
+          for($x=$i;$x<count($column_t);$x++){
+            if($len == $col->length){
+              break;
+            }else if($len > $col->length){
+              throw new \Exception("Malformed tabll cell found.");
+            }else{
+              $len += $column_t[$x]->length;
+              if($column_t[$x]->type == "cell"){
+                $n++;
+              }
+            }
+          }
+          $i = $x;
+          $col->more_column = $n-1;
+        }else{
+          $i++;
+        }
+      }
+    }
+    
+    return $cols;
+  }
+
   /**
    * SimpleTableの一番右のセルだけはヘッダラインを超えてかける。
    * 各セルはまたTokenで読み直されてよしなに処理される。
+   *
    * @see also: http://docutils.sourceforge.net/docs/ref/rst/restructuredtext.html#tables
+   * TODO: 要要要リファクタリング
    */
   public function execute(\Text\Restructured\TokenStream &$input,$level = 0)
   {
@@ -44,44 +122,11 @@ class Table extends Base
       $next = $input->getVToken();
 
       switch($this->state){
+        
         case self::INIT:
           if($current->alias == "table"){
-            
-            $string = rtrim($current->line);
-            
-            $length = strlen($string);
 
-            $x = 0;
-            $type = 0;
-            $cols = array();
-            for($i=0;$i<$length;$i++){
-              $char = $string[$i];
-
-              if(($char == "=" || $char == "-") && $type == 1){
-                $x++;
-                $col_cnt++;
-              }else if($char == " " || $char == "\t" && $type == 0){
-                $x++;
-              }
-
-              if($char == "=" || $char == "-"){
-                if(!isset($cols[$x])){
-                  $cols[$x] = (object)array("type"=>"cell","length"=>0);
-                }
-
-                $cols[$x]->length++;
-                $type = 0;
-              }else if($char == " " || $char == "\t"){
-                if(!isset($cols[$x])){
-                  $cols[$x] = (object)array("type"=>"space","length"=>0);
-                }
-
-                $cols[$x]->length++;
-                $type = 1;
-              }
-
-            }
-
+            $cols = $this->detect_table_columns(trim($current->line));
             $this->notify(Event::TABLE_START);
 
             $this->state = self::ROW;
@@ -93,7 +138,7 @@ class Table extends Base
 
         case self::THINK:
 
-          if($current->alias == "indent" && $next->alias != "eos"){
+          if($current->alias == "indent" && ($next->alias != "eos" && $previous->alias != "table")){
             //インデントかましてセルの位置が合えば継続行として扱えます。
             $tmp = $current->data;
             $current = $input->getToken();
@@ -102,7 +147,7 @@ class Table extends Base
             $c = array();
             $n = 0;
 
-            foreach($cols as $col){
+            foreach($column_t as $col){
               if($col->type == "cell"){
                 if($n == $col_cnt){
                   $a = $tmp;
@@ -125,8 +170,7 @@ class Table extends Base
               $nu = 0;
               foreach($c as $cc){
                 if(trim($cc)){
-                  
-                  $rows[$row_cnt-1][$nu] .= PHP_EOL . $cc;
+                  $rows[$row_cnt-1][$nu]->data .= PHP_EOL . $cc;
                 }
                 $nu++;
               }
@@ -144,6 +188,8 @@ class Table extends Base
           }else if($current->alias == "line"){
             //throw new \Exception("tableの定義がおかしいよ？");
             //なんと改行も許容できます。
+          }else if($current->alias == "indent"){
+            $next->line = $current->line . $next->line;
 
           }else if($current->alias == "text"){
             $input->back();
@@ -153,22 +199,46 @@ class Table extends Base
           break;
 
         case self::ROW:
-          if($current->alias == "indent"){
-            //skip
+          if($current->alias == "indent" && $next->alias != "table"){
+            //merge indent to table cells.
+            $next->line = $current->line . $next->line;
           }else{
-            $tmp = rtrim($current->data);
+            $tmp = rtrim($current->line);
+
+            if($next->alias == "table"){
+              $next_colmun = $this->detect_table_columns(trim($next->line),$cols);
+
+              if(count($next_colmun) != count($cols)){
+                $column_t = $next_colmun;
+              }else{
+                $column_t = $cols;
+              }
+            }else{
+              $column_t = $cols;
+            }
+
+            $col_cnt = 0;
+            foreach($column_t as $col){
+              if($col->type == "cell"){
+                $col_cnt++;
+              }
+            }
 
             $c = array();
             $n = 0;
-            foreach($cols as $offset => $col){
+            
+            foreach($column_t as $offset => $col){
               if($col->type == "cell"){
+                $i = 0;
 
                 if($n == $col_cnt){
+                  //最終カラムは残り物
                   $a = $tmp;
                 }else{
-                  
-                  $s_len = mb_strlen($tmp);
+
+                  $s_len = mb_strlen($tmp,"utf-8");
                   $s_buffer = "";
+                  
                   for($i=0,$l=0;$l < $col->length && $i<$s_len;$i++,$l++){
                     $s_char = mb_substr($tmp,$i,1,"utf-8");
                     $s_width = mb_strwidth($s_char,"utf-8");
@@ -179,9 +249,16 @@ class Table extends Base
                   }
                   $a = $s_buffer;
                 }
-                $c[] = $a;
+                
+                $cell = (object)array("data"=>"","more_column"=>"0");
+                $cell->data = $a;
+                $cell->more_column = $col->more_column;
+
+                $c[] = $cell;
+
                 $tmp = mb_substr($tmp,$i,8192,"utf-8");
                 $n++;
+
               }else if($col->type == "space"){
 
                 $tmp = substr($tmp,$col->length);
@@ -192,11 +269,11 @@ class Table extends Base
             
 
             //書き出すのは全部確定してから
-            if(count($c) && $col_cnt){
+            if(count($c) && $column_t){
               $rows[$row_cnt] = $c;
               $row_cnt++;
             }else{
-              throw new \Exception("セルの数が違うよ");
+              throw new \Exception("Malformed table cells.");
             }
             
             $this->state = self::THINK;
@@ -213,9 +290,11 @@ class Table extends Base
               $this->notify(Event::ROW_START);
 
               foreach($c as $column){
-                $this->notify(Event::ENTRY_START);
+                //Todo: morecolumn,morerowsのオプションをつけよう
+                $this->notify(Event::ENTRY_START,array("more_column"=>$column->more_column));
+
                 $rst = clone $rest;
-                $rst->registerStream(new \Text\Restructured\Loader\StringLoader(trim($column)));
+                $rst->registerStream(new \Text\Restructured\Loader\StringLoader(trim($column->data)));
                 $rst->parse($this->handler);
                 unset($rst);
                 $this->notify(Event::ENTRY_END);
@@ -227,8 +306,9 @@ class Table extends Base
           $this->notify(Event::TABLE_END);
           return;
       }
+
+      $previous = $current;
     }
     
-    $previous = $current;
   }
 }
