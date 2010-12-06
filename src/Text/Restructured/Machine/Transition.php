@@ -36,7 +36,7 @@ class Transition extends Base
           }else if(($previous && $previous->alias == "text") &&  $current->alias == "transition"){
             $this->notify(Event::SUBJECT_END);
           }else if($current->alias == "transition"){
-            $this->notify(Event::HORIZON,$current->data);
+            $this->notify(Event::TRANSITION,$current->data);
           }else{
             return;
           }
