@@ -1,5 +1,6 @@
 <?php
 $vendor_dir = __DIR__ . "/../src";
+
 require_once $vendor_dir . "/Text/Restructured.php";
 require_once $vendor_dir . "/Text/Restructured/Machine/Base.php";
 require_once $vendor_dir . "/Text/Restructured/Loader/FileLoader.php";
@@ -20,6 +21,7 @@ require_once $vendor_dir . "/Text/Restructured/Machine/FieldList.php";
 require_once $vendor_dir . "/Text/Restructured/Machine/OptionList.php";
 require_once $vendor_dir . "/Text/Restructured/Machine/DefinitionList.php";
 require_once $vendor_dir . "/Text/Restructured/Machine/Table.php";
+require_once $vendor_dir . "/Text/Restructured/Machine/GridTable.php";
 
 require_once $vendor_dir . "/Text/Restructured/Parser/IState.php";
 require_once $vendor_dir . "/Text/Restructured/Parser/State.php";
@@ -34,11 +36,13 @@ require_once $vendor_dir . "/Text/Restructured/Parser/LineBlock.php";
 require_once $vendor_dir . "/Text/Restructured/Parser/FieldList.php";
 require_once $vendor_dir . "/Text/Restructured/Parser/OptionList.php";
 require_once $vendor_dir . "/Text/Restructured/Parser/SimpleTable.php";
+require_once $vendor_dir . "/Text/Restructured/Parser/GridTable.php";
 require_once $vendor_dir . "/Text/Restructured/Parser/Code.php";
 
 
 $states = array(
   new Text\Restructured\Parser\Line(),
+  new Text\Restructured\Parser\GridTable(),
   new Text\Restructured\Parser\Transition(),
   new Text\Restructured\Parser\SimpleTable(),
   new Text\Restructured\Parser\Indent(),

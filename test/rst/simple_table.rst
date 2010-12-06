@@ -8,6 +8,5 @@ True   False  True
 False  True   True 
 True   True   True 
 =====  =====  ======
-
 Uhi     Uhi    Uhi
 =====  =====  ======

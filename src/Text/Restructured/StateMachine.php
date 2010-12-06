@@ -35,6 +35,13 @@ class StateMachine extends Machine\Base
             $input->back();
             $machine->execute($input);
             unset($machine);
+          }else if($current->alias == "grid_table"){
+            $machine = new \Text\Restructured\Machine\GridTable();
+            $machine->register_handler($this->get_handler());
+            $machine->register_root_machine($this);
+            $input->back();
+            $machine->execute($input);
+            unset($machine);
           }else if($current->alias == "table"){
             $machine = new \Text\Restructured\Machine\Table();
             $machine->register_handler($this->get_handler());
