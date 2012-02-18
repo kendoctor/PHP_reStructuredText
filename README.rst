@@ -1,6 +1,13 @@
 Text\RestructuredText
 =====================
 
+Important notice
+++++++++++++++++
+
+currently this library has not maintained. please use  rst2xml and parse it.
+
+
+
 Text\Restructured はpure PHPで書かれたreStructuredTextのパーサです。
 
 :author: chobi_e <http://twitter.com/chobi_e>
